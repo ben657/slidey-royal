@@ -6,6 +6,8 @@ using MLAPI;
 
 public class PlayerInputController : NetworkedBehaviour, Input.IPlayerActions
 {
+    public Camera camera;
+
     Input input;
 
     PlayerController player;
@@ -17,24 +19,30 @@ public class PlayerInputController : NetworkedBehaviour, Input.IPlayerActions
 
     public void OnLook(InputAction.CallbackContext context)
     {
-        
+        player.LookInput = context.ReadValue<Vector2>();
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (IsOwner)
-        {
-            Vector2 input = context.ReadValue<Vector2>();
-            player.MoveInput = input;
-        }
+        player.MoveInput = context.ReadValue<Vector2>();
     }
 
     void Awake()
     {
-        input = new Input();
-        input.Player.SetCallbacks(this);
-        input.Player.Enable();
-
         player = GetComponent<PlayerController>();
+    }
+
+    private void Start()
+    {
+        if (IsOwner)
+        {
+            input = new Input();
+            input.Player.SetCallbacks(this);
+            input.Player.Enable();
+
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        camera.gameObject.SetActive(IsOwner);
     }
 }
