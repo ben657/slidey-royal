@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using MLAPI;
 
-public class PlayerInputController : NetworkedBehaviour, Input.IPlayerActions
+public class PlayerInputController : NetworkedBehaviour, PlayerInput.IPlayerActions
 {
     public Camera camera;
 
-    Input input;
+    PlayerInput input;
 
     PlayerController player;
 
@@ -30,13 +30,14 @@ public class PlayerInputController : NetworkedBehaviour, Input.IPlayerActions
     void Awake()
     {
         player = GetComponent<PlayerController>();
+        transform.position = MapManager.Instance.GetSpawnPoint();
     }
 
     private void Start()
     {
         if (IsOwner)
         {
-            input = new Input();
+            input = new PlayerInput();
             input.Player.SetCallbacks(this);
             input.Player.Enable();
 

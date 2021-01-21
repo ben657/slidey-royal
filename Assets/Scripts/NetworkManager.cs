@@ -2,32 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MLAPI;
+using MLAPI.Messaging;
+using MLAPI.Connection;
 
-public class NetworkManager : SingletonBehaviour<NetworkManager>, IManager
+public class NetworkManager : SingletonNetworkedBehaviour<NetworkManager>, IManager
 {
-    public static bool IsServer { get; private set; } = false;
 
     public void Init()
     {
 #if SERVER
         Debug.Log("Initialising Network Manager as Server");
-        NetworkingManager.Singleton.StartHost();
-        IsServer = true;
+        NetworkingManager.Singleton.StartHost(createPlayerObject: false);
 #else
         Debug.Log("Initialising Network Manager as Client");
         NetworkingManager.Singleton.StartClient();
 #endif
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public List<NetworkedClient> GetClientList()
     {
-        
-    }
+        if(IsServer)
+            return NetworkingManager.Singleton.ConnectedClientsList;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        return null;
     }
 }

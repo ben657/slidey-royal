@@ -202,9 +202,9 @@ MonoBehaviour:
     AllowRuntimeSceneChanges: 0
     NetworkedPrefabs:
     - Prefab: {fileID: 2762850318444031458, guid: 7e06c5cd09571364a81f9d9068a7376b, type: 3}
-      PlayerPrefab: 1
+      PlayerPrefab: 0
     PlayerPrefabHash:
-      Value: 1897319656204293034
+      Value: 0
     CreatePlayerPrefab: 1
     ReceiveTickrate: 64
     MaxReceiveEventsPerTickRate: 500
