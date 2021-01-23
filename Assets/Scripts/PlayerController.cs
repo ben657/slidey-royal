@@ -16,12 +16,21 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody body;
 
+    [SerializeField]
     float yaw = 0.0f;
     float pitch = 0.0f;
 
     private void Awake()
     {
         body = GetComponent<Rigidbody>();
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (Util.IsLayerInMask(collision.gameObject.layer, (int)Layers.Standable))
+        {
+            transform.up = collision.GetContact(0).normal;
+        }
     }
 
     // Update is called once per frame
